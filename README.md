@@ -30,4 +30,4 @@ Import this repository, preset **Other**, root `./`, build command `npm run buil
 
 `python3 -m unittest discover -s tests` runs nine tests covering food placement, queued direction changes, growth, wall/self collisions, moving into a vacated tail cell, pause/restart, full-board wins, and score-file recovery. The actual Pyodide runtime also passed start, turn, tick, pause, restart, and JSON-bridge checks. `node --check web/app.js` checks browser JavaScript syntax. `npm run build` generates the static site.
 
-Desktop window interaction and browser gameplay must be checked on a machine that can display the game. The development test browser could not access the local server; no visual or touch-device verification is claimed yet.
+The hosted browser edition was visually reviewed and gameplay was verified after deployment. Desktop Turtle window interaction and dedicated touch-device testing remain separate checks.
