@@ -1,49 +1,81 @@
-from turtle import Screen
-import time
-from snake import Snake
-from food import Food
-from scoreboard import Scoreboard
+"""Desktop Turtle renderer for the shared Python game engine."""
+from pathlib import Path
+import turtle
+from engine import Game
 
-screen = Screen()
-screen.setup(width=600, height=600)
 
-screen.bgcolor("black")
-screen.title("Snake Game")
-screen.tracer(0)
+def read_best(path):
+    try:
+        return max(0, int(path.read_text().strip()))
+    except (OSError, ValueError):
+        return 0
 
-snake = Snake()
-food = Food()
-score = Scoreboard()
-# score.read_high_score()
 
-screen.listen()
-screen.onkey(snake.up, "Up")
-screen.onkey(snake.down, "Down")
-screen.onkey(snake.left, "Left")
-screen.onkey(snake.right, "Right")
+def main():
+    game = Game()
+    score_path = Path.home() / '.snake_game_best'
+    best = read_best(score_path)
+    screen = turtle.Screen()
+    screen.setup(600, 660)
+    screen.bgcolor('#0b1412')
+    screen.title('Snake / Jason Breedlove')
+    screen.tracer(0)
+    pen = turtle.Turtle(visible=False)
+    pen.penup()
+    pen.shape('square')
+    pen.shapesize(.9, .9)
+    label = turtle.Turtle(visible=False)
+    label.penup()
 
-game_is_on = True
-while game_is_on:
-    screen.update()
-    time.sleep(0.1)
-    snake.move()
+    def render():
+        pen.clearstamps()
+        for index, (x, y) in enumerate(game.snake):
+            pen.color('#d2ff66' if index == 0 else '#5eac80')
+            pen.goto(x * 20 - 230, 230 - y * 20)
+            pen.stamp()
+        if game.food:
+            x, y = game.food
+            pen.color('#ff7191')
+            pen.goto(x * 20 - 230, 230 - y * 20)
+            pen.stamp()
+        label.clear()
+        label.goto(0, 280)
+        label.color('white')
+        label.write(f'SCORE {game.score:02}   BEST {best:02}', align='center', font=('Courier', 18, 'normal'))
+        label.goto(0, -290)
+        messages = {'ready':'SPACE to start', 'running':'Arrows / WASD · SPACE pause · R restart',
+                    'paused':'Paused · SPACE to resume', 'over':'Game over · R to restart', 'won':'Board complete! · R to restart'}
+        label.write(messages[game.status], align='center', font=('Courier', 12, 'normal'))
+        screen.update()
 
-    # Detect collision with food.
-    if snake.head.distance(food) < 15:
-        food.refresh()
-        score.increase_score()
-        snake.extend()
-        score.update_scoreboard()
+    def toggle():
+        game.pause() if game.status == 'running' else game.start()
+        render()
 
-    # Detect Collision with wall.
-    if snake.head.xcor() > 297 or snake.head.xcor() < -297 or snake.head.ycor() > 297 \
-            or snake.head.ycor() < -297:
-        score.reset()
-        snake.reset()
-    # Detect collision with tail.
-    for segment in snake.segments[1:]:
-        if snake.head.distance(segment) < 10:
-            score.reset()
-            snake.reset()
+    def reset():
+        game.reset()
+        render()
 
-screen.exitonclick()
+    def tick():
+        nonlocal best
+        game.step()
+        if game.score > best:
+            best = game.score
+            try:
+                score_path.write_text(str(best))
+            except OSError:
+                pass
+        render()
+        screen.ontimer(tick, max(65, 145 - game.score * 2))
+
+    for key, direction in [('Up','up'),('w','up'),('Down','down'),('s','down'),('Left','left'),('a','left'),('Right','right'),('d','right')]:
+        screen.onkey(lambda direction=direction: game.turn(direction), key)
+    screen.onkey(toggle, 'space')
+    screen.onkey(reset, 'r')
+    screen.listen()
+    tick()
+    screen.mainloop()
+
+
+if __name__ == '__main__':
+    main()

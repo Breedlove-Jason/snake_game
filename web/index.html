@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#101915">
+<meta name="description" content="A classic Snake game powered by Python. Play with your keyboard, swipe, or use the touch controls.">
+<title>Snake — Jason Breedlove</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23101915'/%3E%3Cpath d='M8 9h16v7H9v7h15' fill='none' stroke='%23d2ff66' stroke-width='5'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="style.css">
+<script type="module" src="app.js"></script>
+</head>
+<body>
+<header><a href="https://www.jasonbreedlove.dev/#projects">JB <span>/ THE ARCADE</span></a><a href="https://github.com/Breedlove-Jason/snake_game" id="source">View source ↗</a></header>
+<main>
+<section class="intro"><p class="eyebrow">001 / PYTHON CLASSICS</p><h1>Small moves.<br><em>Long game.</em></h1><p class="lede">A familiar chase. A little more room to grow.<br>Collect the pink fruit. Keep your tail out of trouble.</p>
+<div class="rules"><p><span>01</span> Find your rhythm</p><small>Arrow keys or WASD to turn. Swipe or tap on mobile.</small><p><span>02</span> Know your limits</p><small>The walls stay put. Your snake gets longer.</small><p><span>03</span> Take a breath</p><small>Space to pause. Your best stays in this browser.</small></div>
+<p class="credit">Built by Jason Breedlove<br><span>From a Python Turtle project to a playable web experiment.</span></p></section>
+<section class="console" aria-label="Snake game">
+<div class="scorebar"><div><span>SCORE</span><strong id="score">00</strong></div><div><span>PERSONAL BEST</span><strong id="best">00</strong></div><span class="badge">SNAKE / 01</span></div>
+<div class="board-wrap"><canvas id="board" width="576" height="576" tabindex="0" aria-label="Snake board. Use arrow keys or WASD to move; space to pause.">Snake requires a browser with canvas support.</canvas><div id="overlay"><span id="overlay-label">GETTING READY</span><h2 id="overlay-title">Warming up.</h2><p id="overlay-text">Loading the Python game engine…</p></div></div>
+<p id="status" role="status" aria-live="polite">Loading Python. The first visit may take a moment.</p>
+<div class="controls"><button id="start" disabled>Start game ↗</button><button id="pause" disabled>Pause</button><button id="restart" disabled>Restart</button></div>
+<div class="dpad" aria-label="Direction controls"><button data-direction="up" aria-label="Move up">↑</button><div><button data-direction="left" aria-label="Move left">←</button><button data-direction="down" aria-label="Move down">↓</button><button data-direction="right" aria-label="Move right">→</button></div></div>
+<div class="bottomline"><span><i></i> PYTHON UNDER THE HOOD</span><span>NO SIGN-UP. JUST PLAY.</span></div>
+</section>
+</main>
+<footer><span>One more turn.</span><a href="https://www.jasonbreedlove.dev">Back to the portfolio ↗</a></footer>
+</body></html>
